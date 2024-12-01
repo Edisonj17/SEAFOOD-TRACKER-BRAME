@@ -13,7 +13,7 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //Crear las variables que va a guardar la BD 
      
-    private Long id_usuario;
+    private int id_usuario;
     
     @Column(name = "nombre", nullable = false)
     private String nombre;
@@ -26,7 +26,7 @@ public class UserModel {
     
     //Creación de los métodos GET.
 
-    public Long getId_usuario() {
+    public int getId_usuario() {
         return id_usuario;
     }        
     
@@ -44,7 +44,7 @@ public class UserModel {
 
     //Creación de los métodos Set.
 
-    public void setId_usuario(Long id_usuario) {
+    public void setId_usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
     

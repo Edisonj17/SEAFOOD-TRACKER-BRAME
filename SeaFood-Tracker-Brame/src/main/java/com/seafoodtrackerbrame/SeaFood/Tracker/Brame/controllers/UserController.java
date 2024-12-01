@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService UserService;    
     
-    @GetMapping("/bramestockmanager")
+    @GetMapping("/usuarios")
     public ArrayList<UserModel> getNombre(){
         return this.UserService.getNombre();
         
@@ -29,16 +29,17 @@ public class UserController {
         return this.UserService.saveUser(usuarios); 
     }
       
-    @GetMapping(path = "/{id_usuario}")
-    public Optional<UserModel> getUserById(@PathVariable("id_usuario") Long id){    
+    @GetMapping(path = "/usuarios/{id_usuario}")
+    public Optional<UserModel> getUserById(@PathVariable("id_usuario") Long id){
         return this.UserService.getById(id);    
     }
     
-    @PutMapping(path = "/{id_usuario}")
-    public UserModel updateUserById(@RequestBody UserModel request, @PathVariable("id_usuario") long id){
+    @PutMapping(path = "/usuarios/{id_usuario}")
+    public UserModel updateById(@RequestBody UserModel request ,@PathVariable("id_usuario") long id){
         return this.UserService.updateById(request, id);
+
     }
-    @DeleteMapping(path = "/{id_usuario}")
+    @DeleteMapping(path = "/usuarios/{id_usuario}")
     public String deleteById(@PathVariable("id_usuario") long id_usuario){
         boolean ok = this.UserService.deleteUser(id_usuario);
         if (ok){

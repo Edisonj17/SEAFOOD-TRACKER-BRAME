@@ -27,13 +27,14 @@ public class UserService {
         return userRepository.findById(id);
     }
     
-    public UserModel updateById(UserModel request, Long id){
-        UserModel usuarios = userRepository.findById(id).get();
+    public UserModel updateById(UserModel request, long id){
+        UserModel UserModel = userRepository.findById(id).get();
                 
-        usuarios.setNombre(request.getNombre());
-        usuarios.setContrasena(request.getContrasena());
-        usuarios.setRol(request.getRol());
-        return usuarios;
+        UserModel.setNombre(request.getNombre());
+        UserModel.setContrasena(request.getContrasena());
+        UserModel.setRol(request.getRol());
+        userRepository.save(UserModel);
+        return UserModel;
     }
     
     public Boolean deleteUser (Long id){
