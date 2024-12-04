@@ -6,13 +6,16 @@ package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "usuarios")
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //Crear las variables que va a guardar la BD 
-     
+
     private int id_usuario;
     
     @Column(name = "nombre", nullable = false)
@@ -23,6 +26,9 @@ public class UserModel {
     
     @Column(name = "rol", nullable = false)
     private String rol;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<MovementModel> movimientos = new ArrayList<>();
     
     //Creación de los métodos GET.
 
@@ -42,6 +48,10 @@ public class UserModel {
         return rol;
     }
 
+    public void setMovimientos(List<MovementModel> movimientos) {
+        this.movimientos = movimientos;
+    }
+
     //Creación de los métodos Set.
 
     public void setId_usuario(int id_usuario) {
@@ -59,6 +69,8 @@ public class UserModel {
     public void setRol(String rol) {
         this.rol = rol;
     }
-    
-    
+
+    public List<MovementModel> getMovimientos() {
+        return movimientos;
+    }
 }

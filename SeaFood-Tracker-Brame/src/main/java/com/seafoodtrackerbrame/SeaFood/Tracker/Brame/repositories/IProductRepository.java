@@ -1,9 +1,9 @@
 package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.repositories;
 
-import com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models.MovementModel;
+import com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models.ProductModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IMovementRepository extends JpaRepository<MovementModel,Long>{
+public interface IProductRepository extends JpaRepository<ProductModel,Long>{
 }
