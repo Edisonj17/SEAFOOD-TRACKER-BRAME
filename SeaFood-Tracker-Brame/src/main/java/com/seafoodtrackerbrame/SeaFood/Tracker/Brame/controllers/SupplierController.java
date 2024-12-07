@@ -40,9 +40,9 @@ public class SupplierController {
     public String deleteById(@PathVariable("id_proveedor") long id_proveedor){
         boolean ok = this.SupplierService.deleteUser(id_proveedor);
         if (ok){
-            return "El usuario " + id_proveedor + " ha sido eliminado!";
+            return "El proveedor " + id_proveedor + " ha sido eliminado!";
         }else{
-            return "Error, usuario no encontrado";
+            return "Error, proveedor no encontrado";
         }
     }
 }

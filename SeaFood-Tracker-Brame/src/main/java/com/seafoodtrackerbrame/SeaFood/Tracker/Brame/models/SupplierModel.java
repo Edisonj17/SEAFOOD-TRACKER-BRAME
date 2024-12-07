@@ -2,10 +2,6 @@ package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Entity
 @Table(name = "proveedores")
 public class SupplierModel {
@@ -17,9 +13,6 @@ public class SupplierModel {
 
     @Column(name = "nombre_proveedor", nullable = false)
     private String nombre_proveedor;
-
-    @Column(name = "contacto_proveedor", nullable = false)
-    private String contacto_proveedor;
 
     @Column(name = "telefono_proveedor", nullable = false)
     private String telefono_proveedor;
@@ -38,9 +31,6 @@ public class SupplierModel {
         return nombre_proveedor;
     }
 
-    public String getContacto_proveedor() {
-        return contacto_proveedor;
-    }
 
     public String getTelefono_proveedor() {
         return telefono_proveedor;
@@ -62,9 +52,6 @@ public class SupplierModel {
         this.nombre_proveedor = nombre_proveedor;
     }
 
-    public void setContacto_proveedor(String contacto_proveedor) {
-        this.contacto_proveedor = contacto_proveedor;
-    }
 
     public void setTelefono_proveedor(String telefono_proveedor) {
         this.telefono_proveedor = telefono_proveedor;

@@ -28,7 +28,6 @@ public class SupplierService {
         SupplierModel SupplierModel = supplierRepository.findById(id).get();
 
         SupplierModel.setNombre_proveedor(request.getNombre_proveedor());
-        SupplierModel.setContacto_proveedor(request.getContacto_proveedor());
         SupplierModel.setEmail_proveedor(request.getEmail_proveedor());
         SupplierModel.setTelefono_proveedor(request.getTelefono_proveedor());
         supplierRepository.save(SupplierModel);

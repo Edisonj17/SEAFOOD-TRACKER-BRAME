@@ -4,6 +4,7 @@
  */
 package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class UserModel {
     private String rol;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private List<MovementModel> movimientos = new ArrayList<>();
     
     //Creación de los métodos GET.

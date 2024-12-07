@@ -1,5 +1,6 @@
 package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -24,10 +25,12 @@ public class MovementModel {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonIgnore
     private UserModel usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)
+    @JsonIgnore
     private ProductModel producto;
 //Métodos Get
 
@@ -82,4 +85,8 @@ public class MovementModel {
     public ProductModel getProducto() {
         return producto;
     }
+    
+    //Metodo para insertar desde el frontend
+   
 }
+

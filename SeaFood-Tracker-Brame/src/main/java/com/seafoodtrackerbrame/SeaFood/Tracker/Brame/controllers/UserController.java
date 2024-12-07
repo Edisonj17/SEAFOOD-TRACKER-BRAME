@@ -23,7 +23,7 @@ public class UserController {
         return this.UserService.getNombre();
         
     }
-    
+     
     @PostMapping("/usuarios")
     public UserModel saveUser(@RequestBody UserModel usuarios){
         return this.UserService.saveUser(usuarios); 

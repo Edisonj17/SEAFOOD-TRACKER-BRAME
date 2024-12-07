@@ -1,5 +1,6 @@
 package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ProductModel {
     private int stock;
 
     @OneToMany(mappedBy = "producto")
+    @JsonIgnore
     private List<MovementModel> movimientos = new ArrayList<>();
 
     //Creación de los métodos GET.
