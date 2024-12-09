@@ -47,7 +47,7 @@ public class Inicio extends javax.swing.JFrame {
 
         CerrarSesion.setBackground(new java.awt.Color(0, 153, 153));
         CerrarSesion.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        CerrarSesion.setText("Cerrar Sesión");
+        CerrarSesion.setText("Cerrar SesiÃ³n\n");
         CerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CerrarSesionActionPerformed(evt);

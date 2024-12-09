@@ -91,7 +91,7 @@ public class SignUp extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel4.setText("ContraseÒa:");
+        jLabel4.setText("Contrase√±a:");
 
         contrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +118,7 @@ public class SignUp extends javax.swing.JFrame {
         btniniciarsesion.setBackground(new java.awt.Color(0, 102, 102));
         btniniciarsesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btniniciarsesion.setForeground(new java.awt.Color(255, 255, 255));
-        btniniciarsesion.setText("Iniciar Sesion");
+        btniniciarsesion.setText("Iniciar Sesi√≥n");
         btniniciarsesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btniniciarsesionActionPerformed(evt);
@@ -213,6 +213,23 @@ public class SignUp extends javax.swing.JFrame {
 
     private void registrarUsuario() {
         try {
+            
+            if (nombre.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+        return;
+        }
+
+   
+        if (contrasena.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "La contrase√±a es obligatoria");
+        return;
+        }
+        
+        if (rol.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El rol es obligatorio");
+        return;
+        }
+            
             URL url = new URL("http://localhost:4000/bramestockmanager/usuarios");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -232,9 +249,9 @@ public class SignUp extends javax.swing.JFrame {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
-                JOptionPane.showMessageDialog(this, "Usuario registrado con Èxito");
+                JOptionPane.showMessageDialog(this, "Usuario registrado con √©xito");
             } else {
-                JOptionPane.showMessageDialog(this, "Error al registrar usuario. CÛdigo: " + responseCode);
+                JOptionPane.showMessageDialog(this, "Error al registrar usuario. C√≥digo: " + responseCode);
             }
 
         } catch (Exception ex) {

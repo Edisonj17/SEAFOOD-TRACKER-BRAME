@@ -4,6 +4,16 @@
  */
 package GUI;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models.MovementModel;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
@@ -15,6 +25,7 @@ public class Movimientos extends javax.swing.JFrame {
      */
     public Movimientos() {
         initComponents();
+        getMovimientos();
     }
 
     /**
@@ -36,26 +47,25 @@ public class Movimientos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtIdUsuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtidProducto = new javax.swing.JTextField();
+        txtIdProducto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtTipoMovimiento = new javax.swing.JTextField();
-        date = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbMovimientos = new javax.swing.JTable();
+        tablaMovimientos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MOVIMIENTOS");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMinimumSize(new java.awt.Dimension(800, 500));
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
+        jPanel1.setMaximumSize(new java.awt.Dimension(1200, 500));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1200, 500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1200, 500));
 
         BarraSuperior.setBackground(new java.awt.Color(0, 102, 102));
         BarraSuperior.setPreferredSize(new java.awt.Dimension(800, 100));
@@ -80,9 +90,9 @@ public class Movimientos extends javax.swing.JFrame {
         BarraSuperiorLayout.setHorizontalGroup(
             BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BarraSuperiorLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -113,7 +123,7 @@ public class Movimientos extends javax.swing.JFrame {
 
         jLabel4.setText("Id Producto:");
 
-        txtidProducto.setPreferredSize(new java.awt.Dimension(200, 28));
+        txtIdProducto.setPreferredSize(new java.awt.Dimension(200, 28));
 
         jLabel5.setText("Cantidad:");
 
@@ -122,15 +132,6 @@ public class Movimientos extends javax.swing.JFrame {
         jLabel6.setText("Tipo de movimiento:");
 
         txtTipoMovimiento.setPreferredSize(new java.awt.Dimension(200, 28));
-
-        date.setPreferredSize(new java.awt.Dimension(200, 28));
-        date.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dateActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("Fecha:");
 
         btnGuardar.setText("GUARDAR");
         btnGuardar.setPreferredSize(new java.awt.Dimension(150, 30));
@@ -142,6 +143,11 @@ public class Movimientos extends javax.swing.JFrame {
 
         btnModificar.setText("EDITAR");
         btnModificar.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
         btnEliminar.setPreferredSize(new java.awt.Dimension(150, 30));
@@ -165,7 +171,6 @@ public class Movimientos extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel6))
@@ -173,8 +178,7 @@ public class Movimientos extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTipoMovimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtidProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txtIdProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(23, 23, 23)
@@ -201,32 +205,28 @@ public class Movimientos extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtidProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtTipoMovimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TABLA DE MOVIMIENTOS", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        tbMovimientos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMovimientos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -237,7 +237,7 @@ public class Movimientos extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tbMovimientos);
+        jScrollPane1.setViewportView(tablaMovimientos);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -245,13 +245,12 @@ public class Movimientos extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -260,7 +259,7 @@ public class Movimientos extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BarraSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(BarraSuperior, javax.swing.GroupLayout.DEFAULT_SIZE, 1200, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,7 +271,7 @@ public class Movimientos extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(BarraSuperior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -283,22 +282,238 @@ public class Movimientos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        private void getMovimientos() {
+    try {
+        URL url = new URL("http://localhost:4000/bramestockmanager/movimientos");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/json");
 
-            
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+            // Leer respuesta como lista de proveedores
+            List<MovementModel> movimientos = objectMapper.readValue(
+            connection.getInputStream(),
+            new TypeReference<List<MovementModel>>() {}
+            );
+
+
+            // Crear modelo de tabla
+            DefaultTableModel modeloTabla = new DefaultTableModel(new String[]{"ID", "Usuario", "Producto", "cantidad","Tipo de Movimiento","Fecha del Movimiento"}, 0);
+
+            // Agregar datos al modelo
+            for (MovementModel movimiento : movimientos) {
+                System.out.println("Movimiento completo: " + movimiento);
+                
+                
+                
+                modeloTabla.addRow(new Object[]{
+                    movimiento.getId_movimiento(),
+                    movimiento.getUsuario().getNombre(),
+                    movimiento.getProducto().getNombre_producto(),
+                    movimiento.getCantidad(),
+                    movimiento.getTipo_movimiento(),
+                    movimiento.getFecha_movimiento(),
+                });
+            }
+
+            // Asignar modelo a la tabla
+            tablaMovimientos.setModel(modeloTabla);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al cargar los movimientos. Código: " + responseCode);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+    
+private void registrarMovimiento() {
+    try {
+        // Validar claves for�neas antes de enviar el JSON y definir los valores que se ingresan en el tipo de movimiento, ademas de evitar que los campos sean nulos
+        int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+        int idProducto = Integer.parseInt(txtIdProducto.getText());
+        if (!validarClaveForanea("usuarios", idUsuario)) {
+            JOptionPane.showMessageDialog(this, "El ID de usuario no existe.");
+            return;
+        }
+        if (!validarClaveForanea("productos", idProducto)) {
+            JOptionPane.showMessageDialog(this, "El ID de producto no existe.");
+            return;
+        }
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        String tipoMovimiento = txtTipoMovimiento.getText().toLowerCase();
+
+        if (txtCantidad.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingresa una cantidad");
+        return;
+        } 
+        
+        if (!tipoMovimiento.equals("ingreso") && !tipoMovimiento.equals("egreso")) {
+            JOptionPane.showMessageDialog(this, "El tipo de movimiento debe ser 'ingreso' o 'egreso'.");
+            return;
+        }
+
+        // Generar la fecha de movimiento
+        String fechaMovimiento = java.time.LocalDateTime.now()
+        .format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        
+        // Enviar la solicitud al backend
+        URL url = new URL("http://localhost:4000/bramestockmanager/movimientos");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        connection.setDoOutput(true);
+        
+        // Crear JSON del movimiento
+        String json = String.format(
+            "{\"usuario\":{\"id_usuario\":%d},\"producto\":{\"id_producto\":%d},\"cantidad\":%d,\"tipo_movimiento\":\"%s\",\"fecha_movimiento\":\"%s\"}",
+            idUsuario, idProducto, cantidad, tipoMovimiento, fechaMovimiento
+        );
+
+        OutputStream os = connection.getOutputStream();
+        os.write(json.getBytes("UTF-8"));
+        os.flush();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+            JOptionPane.showMessageDialog(this, "Movimiento registrado con éxito.");
+            getMovimientos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar movimiento. Código: " + responseCode);
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Error: Los campos numéricos deben contener valores válidos.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+
+    
+}
+
+private void actualizarMovimiento() {
+    try {
+        // Validar claves for�eas antes de enviar el JSON
+        int idMovimiento;
+        try {
+            idMovimiento = Integer.parseInt(txtIdMovimiento.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID del movimiento a editar debe ser un número válido");
+            return;
+        }
+        
+        int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+        int idProducto = Integer.parseInt(txtIdProducto.getText());
+        if (!validarClaveForanea("usuarios", idUsuario)) {
+            JOptionPane.showMessageDialog(this, "El ID de usuario no existe.");
+            return;
+        }
+        if (!validarClaveForanea("productos", idProducto)) {
+            JOptionPane.showMessageDialog(this, "El ID de producto no existe.");
+            return;
+        }
+
+        // Obtener y validar otros campos
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        String tipoMovimiento = txtTipoMovimiento.getText().toLowerCase();
+
+        if (!tipoMovimiento.equals("ingreso") && !tipoMovimiento.equals("egreso")) {
+            JOptionPane.showMessageDialog(this, "El tipo de movimiento debe ser 'ingreso' o 'egreso'.");
+            return;
+        }
+        
+        // Generar la fecha de movimiento
+        String fechaMovimiento = java.time.LocalDateTime.now()
+        .format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
+        // Enviar la solicitud al backend
+        URL url = new URL("http://localhost:4000/bramestockmanager/movimientos/" + idMovimiento);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        connection.setDoOutput(true);
+
+        // Crear JSON del movimiento
+        String json = String.format(
+            "{\"usuario\":{\"id_usuario\":%d},\"producto\":{\"id_producto\":%d},\"cantidad\":%d,\"tipo_movimiento\":\"%s\",\"fecha_movimiento\":\"%s\"}",
+            idUsuario, idProducto, cantidad, tipoMovimiento, fechaMovimiento
+        );
+        
+        OutputStream os = connection.getOutputStream();
+        os.write(json.getBytes("UTF-8"));
+        os.flush();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            JOptionPane.showMessageDialog(this, "Movimiento actualizado con éxito.");
+            getMovimientos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar movimiento. Código: " + responseCode);
+        }
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Error: Los campos numéricos deben contener valores válidos.");
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+
+    private void eliminarMovimiento() {
+    try {
+        
+        int idMovimiento;
+        try {
+            idMovimiento = Integer.parseInt(txtIdMovimiento.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID del movimiento a eliminar debe ser un número válido");
+            return;
+        }
+        
+        URL url = new URL("http://localhost:4000/bramestockmanager/movimientos/" + idMovimiento);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("DELETE");
+        connection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+            JOptionPane.showMessageDialog(this, "Movimiento eliminado con éxito");
+            getMovimientos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el movimiento. Código: " + responseCode);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+
+private boolean validarClaveForanea(String tabla, int id) {
+    try {
+        URL url = new URL("http://localhost:4000/bramestockmanager/" + tabla + "/" + id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = connection.getResponseCode();
+        return responseCode == HttpURLConnection.HTTP_OK;
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al validar clave foránea: " + ex.getMessage());
+        return false;
+    }
+}
     
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         Inicio InitFrame = new Inicio();
@@ -312,17 +527,17 @@ public class Movimientos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdMovimientoActionPerformed
 
-    private void dateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dateActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+            eliminarMovimiento();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-
+            registrarMovimiento();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        actualizarMovimiento();
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,23 +580,21 @@ public class Movimientos extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JTextField date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbMovimientos;
+    private javax.swing.JTable tablaMovimientos;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtIdMovimiento;
+    private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtTipoMovimiento;
-    private javax.swing.JTextField txtidProducto;
     // End of variables declaration//GEN-END:variables
 }

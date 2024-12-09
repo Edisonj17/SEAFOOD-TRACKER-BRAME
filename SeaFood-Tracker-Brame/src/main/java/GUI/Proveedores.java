@@ -4,6 +4,16 @@
  */
 package GUI;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author user
@@ -15,6 +25,7 @@ public class Proveedores extends javax.swing.JFrame {
      */
     public Proveedores() {
         initComponents();
+        getProveedores();
     }
 
     /**
@@ -31,10 +42,10 @@ public class Proveedores extends javax.swing.JFrame {
         Volver = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        IdProveedor = new javax.swing.JTextField();
-        NombreProveedor = new javax.swing.JTextField();
-        TelefonoProveedor = new javax.swing.JTextField();
-        EmailProveedor = new javax.swing.JTextField();
+        idProveedor = new javax.swing.JTextField();
+        nombreProveedor = new javax.swing.JTextField();
+        telefono = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -44,16 +55,18 @@ public class Proveedores extends javax.swing.JFrame {
         EliminarProveedor = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProveedores = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PRODUCTOS");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMinimumSize(new java.awt.Dimension(800, 500));
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1000, 500));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1000, 500));
 
         BarraSuperior.setBackground(new java.awt.Color(0, 102, 102));
+        BarraSuperior.setMinimumSize(new java.awt.Dimension(1000, 100));
+        BarraSuperior.setPreferredSize(new java.awt.Dimension(1000, 100));
 
         Volver.setBackground(new java.awt.Color(0, 153, 153));
         Volver.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
@@ -74,50 +87,46 @@ public class Proveedores extends javax.swing.JFrame {
         BarraSuperiorLayout.setHorizontalGroup(
             BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BarraSuperiorLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
                 .addComponent(Volver, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
         BarraSuperiorLayout.setVerticalGroup(
             BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BarraSuperiorLayout.createSequentialGroup()
-                .addGroup(BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BarraSuperiorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Volver, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(BarraSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Volver, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "REGISTRO PROVEEDORES", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        IdProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
-        IdProveedor.addActionListener(new java.awt.event.ActionListener() {
+        idProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
+        idProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IdProveedorActionPerformed(evt);
+                idProveedorActionPerformed(evt);
             }
         });
 
-        NombreProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
-        NombreProveedor.addActionListener(new java.awt.event.ActionListener() {
+        nombreProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
+        nombreProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreProveedorActionPerformed(evt);
+                nombreProveedorActionPerformed(evt);
             }
         });
 
-        TelefonoProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
-        TelefonoProveedor.addActionListener(new java.awt.event.ActionListener() {
+        telefono.setPreferredSize(new java.awt.Dimension(150, 36));
+        telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelefonoProveedorActionPerformed(evt);
+                telefonoActionPerformed(evt);
             }
         });
 
-        EmailProveedor.setPreferredSize(new java.awt.Dimension(150, 36));
-        EmailProveedor.addActionListener(new java.awt.event.ActionListener() {
+        email.setPreferredSize(new java.awt.Dimension(150, 36));
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailProveedorActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
 
@@ -125,47 +134,63 @@ public class Proveedores extends javax.swing.JFrame {
 
         jLabel3.setText("Nombre:");
 
-        jLabel4.setText("Tel�fono:");
+        jLabel4.setText("Teléfono:");
 
         jLabel5.setText("Email:");
 
         GuardarProveedor.setText("GUARDAR");
         GuardarProveedor.setPreferredSize(new java.awt.Dimension(150, 30));
+        GuardarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GuardarProveedorActionPerformed(evt);
+            }
+        });
 
         ModificarProveedor.setText("MODIFICAR");
         ModificarProveedor.setPreferredSize(new java.awt.Dimension(150, 30));
+        ModificarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarProveedorActionPerformed(evt);
+            }
+        });
 
         EliminarProveedor.setText("ELIMINAR");
         EliminarProveedor.setPreferredSize(new java.awt.Dimension(150, 30));
+        EliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarProveedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                        .addComponent(IdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(idProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombreProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(telefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(email, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(54, 54, 54)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NombreProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TelefonoProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EmailProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(GuardarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ModificarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(GuardarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ModificarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(EliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -173,19 +198,19 @@ public class Proveedores extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(IdProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TelefonoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EmailProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addComponent(GuardarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,7 +223,7 @@ public class Proveedores extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TABLA DE PROVEEDORES", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -209,7 +234,7 @@ public class Proveedores extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaProveedores);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -217,7 +242,7 @@ public class Proveedores extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -254,7 +279,7 @@ public class Proveedores extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,9 +289,211 @@ public class Proveedores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void IdProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdProveedorActionPerformed
+    private void getProveedores() {
+    try {
+        URL url = new URL("http://localhost:4000/bramestockmanager/proveedores");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Leer respuesta como lista de proveedores
+            List<Map<String, Object>> proveedores = objectMapper.readValue(
+                connection.getInputStream(),
+                new TypeReference<List<Map<String, Object>>>() {}
+            );
+
+            // Crear modelo de tabla
+            DefaultTableModel modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Teléfono", "Email"}, 0);
+
+            // Agregar datos al modelo
+            for (Map<String, Object> proveedor : proveedores) {
+                modeloTabla.addRow(new Object[]{
+                    proveedor.get("id_proveedor"),
+                    proveedor.get("nombre_proveedor"),
+                    proveedor.get("telefono_proveedor"),
+                    proveedor.get("email_proveedor"),
+                });
+            }
+
+            // Asignar modelo a la tabla
+            tablaProveedores.setModel(modeloTabla);
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al cargar a los proveedores. Código: " + responseCode);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+    
+        private void registrarProveedor() {
+    try {
+        
+        if (nombreProveedor.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+        return;
+        }
+
+   
+        if (telefono.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El teléfono es obligatorio");
+        return;
+        }
+        
+        if (email.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El email es obligatorio");
+        return;
+        }
+        
+        URL url = new URL("http://localhost:4000/bramestockmanager/proveedores");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+
+        // Crear JSON del producto
+        String json = String.format(
+            "{\"nombre_proveedor\":\"%s\",\"telefono_proveedor\":\"%s\",\"email_proveedor\":\"%s\"}",
+            nombreProveedor.getText(), telefono.getText(), email.getText()
+        );
+
+        OutputStream os = connection.getOutputStream();
+        os.write(json.getBytes("UTF-8"));
+        os.flush();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
+            JOptionPane.showMessageDialog(this, "Proveedor registrado con éxito");
+            getProveedores();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar al proveedor. Código: " + responseCode);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+       
+}
+    
+        //Editar producto
+    private void modificarProveedor() {
+    try {
+        
+        if (nombreProveedor.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El nombre es obligatorio");
+        return;
+        }
+
+   
+        if (telefono.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El teléfono es obligatorio");
+        return;
+        }
+        
+        if (email.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "El email es obligatorio");
+        return;
+        }
+        
+        int id;
+        try {
+            id = Integer.parseInt(idProveedor.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID del proveedor debe ser un número válido");
+            return;
+        }
+        
+        URL url = new URL("http://localhost:4000/bramestockmanager/proveedores/" + id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+
+        // Crear JSON del producto modificado
+        String json = String.format(
+             "{\"nombre_proveedor\":\"%s\",\"telefono_proveedor\":\"%s\",\"email_proveedor\":\"%s\"}",
+            nombreProveedor.getText(), telefono.getText(), email.getText()
+        );
+        System.out.println("JSON enviado: " + json);
+
+        OutputStream os = connection.getOutputStream();
+        os.write(json.getBytes("UTF-8"));
+        os.flush();
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            JOptionPane.showMessageDialog(this, "proveedor modificado con éxito");
+            getProveedores();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al modificar proveedor. Código: " + responseCode);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+    
+    private void eliminarProducto() {
+    try {
+        
+        int id;
+        try {
+            id = Integer.parseInt(idProveedor.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID del producto debe ser un número válido");
+            return;
+        }
+        
+        URL url = new URL("http://localhost:4000/bramestockmanager/proveedores/" + id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("DELETE");
+        connection.setRequestProperty("Accept", "application/json");
+
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+            JOptionPane.showMessageDialog(this, "Proveedor eliminado con éxito");
+            getProveedores();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar al proveedor. Código: " + responseCode);
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }
+}
+    
+    private void idProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idProveedorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_IdProveedorActionPerformed
+    }//GEN-LAST:event_idProveedorActionPerformed
+
+    private void nombreProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreProveedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreProveedorActionPerformed
+
+    private void telefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void ModificarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarProveedorActionPerformed
+        modificarProveedor();
+    }//GEN-LAST:event_ModificarProveedorActionPerformed
+
+    private void GuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarProveedorActionPerformed
+        registrarProveedor();
+    }//GEN-LAST:event_GuardarProveedorActionPerformed
+
+    private void EliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarProveedorActionPerformed
+        eliminarProducto();
+    }//GEN-LAST:event_EliminarProveedorActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         Inicio InitFrame = new Inicio();
@@ -275,18 +502,6 @@ public class Proveedores extends javax.swing.JFrame {
         InitFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
-
-    private void NombreProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NombreProveedorActionPerformed
-
-    private void TelefonoProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelefonoProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TelefonoProveedorActionPerformed
-
-    private void EmailProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailProveedorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EmailProveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -326,13 +541,11 @@ public class Proveedores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BarraSuperior;
     private javax.swing.JButton EliminarProveedor;
-    private javax.swing.JTextField EmailProveedor;
     private javax.swing.JButton GuardarProveedor;
-    private javax.swing.JTextField IdProveedor;
     private javax.swing.JButton ModificarProveedor;
-    private javax.swing.JTextField NombreProveedor;
-    private javax.swing.JTextField TelefonoProveedor;
     private javax.swing.JButton Volver;
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField idProveedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -342,6 +555,8 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField nombreProveedor;
+    private javax.swing.JTable tablaProveedores;
+    private javax.swing.JTextField telefono;
     // End of variables declaration//GEN-END:variables
 }

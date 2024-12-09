@@ -105,7 +105,7 @@ public class Login extends javax.swing.JFrame {
         JPanel1.add(jLabel1);
         jLabel1.setBounds(470, 20, 280, 70);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("USUARIO:");
         JPanel1.add(jLabel2);
         jLabel2.setBounds(430, 110, 70, 20);
@@ -115,7 +115,7 @@ public class Login extends javax.swing.JFrame {
         id_usuario.setBounds(430, 130, 330, 40);
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setText("CONTRASEÑA:");
+        jLabel3.setText("CONTRASEÃ‘A:");
         JPanel1.add(jLabel3);
         jLabel3.setBounds(430, 220, 120, 20);
 
@@ -126,7 +126,7 @@ public class Login extends javax.swing.JFrame {
         btniniciar.setBackground(new java.awt.Color(0, 102, 102));
         btniniciar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btniniciar.setForeground(new java.awt.Color(255, 255, 255));
-        btniniciar.setText("Iniciar Sesión");
+        btniniciar.setText("Iniciar SesiÃ³n");
         btniniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btniniciarActionPerformed(evt);
@@ -187,14 +187,14 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(new JFrame(), "Ingresa el usuario", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }else if(new String(contrasena.getPassword()).equals("")){
-                JOptionPane.showMessageDialog(new JFrame(), "Ingresa la contraseña", "Error",
+                JOptionPane.showMessageDialog(new JFrame(), "Ingresa la contraseÃ±a", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }else {
 
             try {
                 Id_usuarioInt = Integer.parseInt(id_usuario.getText().trim()); // Convertir a int
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(new JFrame(), "ID de usuario no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(new JFrame(), "ID de usuario no vÃ¡lido.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Contrasena    = new String(contrasena.getPassword());
@@ -214,13 +214,9 @@ public class Login extends javax.swing.JFrame {
                 InicioFrame.setLocationRelativeTo(null);
                 this.dispose();
             }else{
-               JOptionPane.showMessageDialog(new JFrame(), "ID o contraseña incorrectas", "Error",
+               JOptionPane.showMessageDialog(new JFrame(), "ID o contraseÃ±a incorrectas", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                System.out.println("Usuario ingresado: " + Id_usuarioInt);
-                System.out.println("Usuario en DB: " + fname);
-                System.out.println("Contraseña ingresada: " + new String(contrasena.getPassword()));
-                System.out.println("Contraseña en DB: " + passDb);
-
+               
             }
             
             }

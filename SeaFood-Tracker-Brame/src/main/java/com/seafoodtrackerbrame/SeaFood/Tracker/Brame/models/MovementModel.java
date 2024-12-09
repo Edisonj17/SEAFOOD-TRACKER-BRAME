@@ -1,9 +1,9 @@
 package com.seafoodtrackerbrame.SeaFood.Tracker.Brame.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "movimientos")
@@ -21,16 +21,16 @@ public class MovementModel {
     private String tipo_movimiento;
 
     @Column(name = "fecha_movimiento", nullable = false)
-    private Date fecha_movimiento;
+    private LocalDateTime fecha_movimiento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
-    @JsonIgnore
+    @JsonProperty
     private UserModel usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)
-    @JsonIgnore
+    @JsonProperty
     private ProductModel producto;
 //Métodos Get
 
@@ -47,7 +47,7 @@ public class MovementModel {
         return tipo_movimiento;
     }
 
-    public Date getFecha_movimiento() {
+    public LocalDateTime getFecha_movimiento() {
         return fecha_movimiento;
     }
 
@@ -74,7 +74,7 @@ public class MovementModel {
         this.tipo_movimiento = tipo_movimiento;
     }
 
-    public void setFecha_movimiento(Date fecha_movimiento) {
+    public void setFecha_movimiento(LocalDateTime fecha_movimiento) {
         this.fecha_movimiento = fecha_movimiento;
     }
 
@@ -84,9 +84,8 @@ public class MovementModel {
 
     public ProductModel getProducto() {
         return producto;
-    }
+    }   
     
-    //Metodo para insertar desde el frontend
-   
+
 }
 
